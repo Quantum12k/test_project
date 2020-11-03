@@ -1,8 +1,12 @@
 package handler
 
-import "net/http"
+import (
+	"context"
+	"database/sql"
+	"net/http"
+)
 
-func LoginPost() http.HandlerFunc {
+func LoginPost(ctx context.Context, db *sql.DB) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
 

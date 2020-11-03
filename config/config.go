@@ -39,7 +39,7 @@ func init() {
 	err := viper.ReadInConfig() // Find and read the config file
 	_ = err
 
-	viper.SetDefault("server_port", ":8000")
+	viper.SetDefault("server_port", ":3000")
 	viper.SetDefault("db_name", "test_db")
 	viper.SetDefault("db_pass", "54678")
 	viper.SetDefault("db_user", "postgres")
