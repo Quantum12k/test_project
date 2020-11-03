@@ -13,10 +13,6 @@ import (
 	"test_project/models"
 )
 
-type response struct {
-	Id string `json:"id"`
-}
-
 func RegPost(ctx context.Context, db *sql.DB) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +25,7 @@ func RegPost(ctx context.Context, db *sql.DB) http.HandlerFunc {
 		}
 		defer dbConn.Close()
 
-		var user models.User
+		var user models.RequestUserInfo
 
 		//request decode
 		err = helper.DecodeJSONBody(w, r, &user)
@@ -80,7 +76,7 @@ func RegPost(ctx context.Context, db *sql.DB) http.HandlerFunc {
 		}
 
 		//generating user id
-		userID := response{Id: uuid.New().String()}
+		userID := models.ResponseUserID{Id: uuid.New().String()}
 
 		queryStr = "insert into users(id, email, pass) values('" + userID.Id + "','" + user.Email + "','" + user.Password + "')"
 		_, err = dbConn.ExecContext(ctx, queryStr)
@@ -100,6 +96,7 @@ func RegPost(ctx context.Context, db *sql.DB) http.HandlerFunc {
 		_, err = w.Write(idJSON)
 		if err != nil {
 			log.Error().Err(err).Msg("error writing response")
+			http.Error(w, helper.FormJSONErrorByStatus(http.StatusInternalServerError), http.StatusInternalServerError)
 		}
 	}
 }
