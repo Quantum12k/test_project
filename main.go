@@ -14,7 +14,7 @@ import (
 
 func main() {
 
-	ctx := context.Background()
+	ctx := context.Background
 
 	configInstance, err := config.NewConfig()
 	if err != nil {
